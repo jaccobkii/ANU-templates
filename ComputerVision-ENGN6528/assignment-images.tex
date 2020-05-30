@@ -1,0 +1,53 @@
+% These codes creates two commands and an environment making it easier to insert images in your report.
+% !! Please be awared that these commands assume that your figures are converted into eps format and placed in eps/
+
+% \cvimg{filname}{width_percentage}{title}
+%%
+%%       where filname - the filename of figure, "fig_1" refering to "eps/fig_1.eps", please do not contain any dot (".") in the filename
+%%                      you can also refer to it, using \ref{filename}
+%%            width_percentage - the width of figure, it's a number in [0, 1.0] refering to the percentage of width of page
+%%            title - the caption of figure
+
+% \begin{cvimggroup}{group_label}{Group Title}
+%    \cvimgitem{fig_1}{0.3}{Image Title 1}
+%    \cvimgitem{fig_2}{0.3}{Image Title 2}
+%    \cvimgitem{fig_3}{0.3}{Image Title 3}
+% \end{cvimggroup}
+%%
+%% cvimggroup allows you put several figures in the same row
+%% cvimgitem works in a similar way as cvimg does
+%%    the width argument (the 2nd one) of cvimgitem refers to the percentage of width of the page
+%%    images may be seprated into different rows if width is too large
+%%    if 0.33 does not work, please try 0.3 or 0.25
+%%    (if you have a good way to solve it and you'd like to share it with us, please feel free to submit a Pull Request)
+
+% Please star this repo if it helps :P
+
+
+\newcommand{\cvimg}[3]{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#2\textwidth]{eps/#1.eps}
+        \caption{#3}
+        \label{fig:#1}
+    \end{figure}
+}
+
+\newenvironment{cvimggroup}[2]{
+    \begin{figure}[htbp]
+    \def\cvimggrouplabels{\caption{#2}\label{#1}}
+    \centering
+}{
+    \cvimggrouplabels
+    \end{figure}
+}
+
+
+\newcommand{\cvimgitem}[3]{
+    \begin{subfigure}[b]{#2\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{eps/#1.eps}
+        \caption{#3}
+        \label{fig:#1}
+    \end{subfigure}
+}
